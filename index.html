@@ -13,7 +13,7 @@
   <!-- Memuat Tailwind CSS via CDN untuk mempermudah tata letak responsif -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Konfigurasi Warna Kustom Tailwind sesuai inspirasi referensi -->
+  <!-- Konfigurasi Warna Kustom Tailwind -->
   <script>
     tailwind.config = {
       theme: {
@@ -55,7 +55,7 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    /* Animasi muncul halus untuk kartu jadwal */
+    /* Animasi muncul halus untuk kartu jadwal dan banner */
     @keyframes fadeSlideUp {
       from {
         opacity: 0;
@@ -84,13 +84,6 @@
       -ms-overflow-style: none;
       scrollbar-width: none;
     }
-
-    /* Kurva dekoratif sidebar ala referensi UI */
-    .nav-active-pill {
-      position: relative;
-      background-color: #F6F7FB;
-      color: #2E2A72;
-    }
   </style>
 </head>
 <body class="min-h-screen antialiased selection:bg-[#F9BC74]/40 selection:text-[#2E2A72]">
@@ -105,7 +98,7 @@
       <!-- Logo & Identitas Aplikasi -->
       <div class="flex lg:flex-col items-center gap-3">
         <div class="w-12 h-12 rounded-2xl bg-white text-brand-indigo flex items-center justify-center shadow-md font-extrabold text-xl">
-          <!-- Ikon Masjid / Bintang Kebersihan SVG -->
+          <!-- Ikon Masjid / Kebersihan SVG -->
           <svg class="w-7 h-7 text-brand-indigo" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 3L4 9v12h16V9l-8-6z" />
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 21v-6a3 3 0 016 0v6" />
@@ -186,7 +179,7 @@
       <!-- BARIS 1: BANNER SAPAAN HANGAT & KARTU STATISTIK RINGKAS -->
       <section class="grid grid-cols-1 lg:grid-cols-12 gap-5">
 
-        <!-- Banner Sapaan Oranye Hangat (Terinspirasi kartu 'Good morning' pada referensi) -->
+        <!-- Banner Sapaan Oranye Hangat -->
         <div class="lg:col-span-7 bg-brand-warm rounded-card p-6 sm:p-7 relative overflow-hidden shadow-soft flex flex-col justify-between min-h-[190px]">
           <div class="relative z-10 max-w-md">
             <span class="inline-block px-3 py-1 rounded-full bg-white/40 text-brand-indigo text-xs font-bold mb-3">
@@ -196,7 +189,7 @@
               Assalamu'alaikum, Santri Hebat!
             </h1>
             <p class="text-sm text-brand-indigo/85 mt-2 leading-relaxed font-medium">
-              Pantau jadwal piket Senin–Jumat, selesaikan tugas kelompokmu tepat waktu, dan jaga lingkungan pesantren tetap bersih nyaman.
+              Pantau jadwal piket Senin–Jumat, tambahkan tugas mandiri bila perlu, dan jaga lingkungan pesantren tetap bersih nyaman.
             </p>
           </div>
 
@@ -232,7 +225,7 @@
           </div>
         </div>
 
-        <!-- Kartu Statistik Progress Piket (Terinspirasi kartu gelap 'Order statistics' di referensi) -->
+        <!-- Kartu Statistik Progress Piket -->
         <div id="panel-statistik" class="lg:col-span-5 bg-brand-indigo text-white rounded-card p-6 shadow-soft flex flex-col justify-between">
           <div class="flex items-center justify-between">
             <div>
@@ -278,13 +271,35 @@
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
           <div>
             <h2 class="text-lg font-extrabold text-brand-indigo">Jadwal & Kelompok Piket</h2>
-            <p class="text-xs text-slate-500">Klik centang pada setiap tugas jika sudah dikerjakan oleh anggota kelompok.</p>
+            <p class="text-xs text-slate-500">Klik centang pada setiap tugas jika sudah dikerjakan, atau tambahkan checklist baru di bawah kartu.</p>
           </div>
 
           <!-- Tombol Filter Hari -->
           <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1" id="container-tab-hari">
             <!-- Tombol tab akan di-render otomatis oleh JavaScript -->
           </div>
+        </div>
+      </section>
+
+      <!-- BANNER PERAYAAN OTOMATIS KETIKA SELURUH CHECKLIST TERCENTANG -->
+      <section id="banner-semua-selesai" class="hidden animate-card">
+        <div class="bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-card p-5 sm:p-6 shadow-soft flex flex-col sm:flex-row items-center justify-between gap-4 border border-emerald-300/40">
+          <div class="flex items-center gap-4 text-center sm:text-left">
+            <div class="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center text-2xl shrink-0">
+              🌟
+            </div>
+            <div>
+              <h3 class="text-lg sm:text-xl font-extrabold tracking-tight">
+                MasyaAllah! Semua tugas selesai
+              </h3>
+              <p id="subjudul-banner-selesai" class="text-xs sm:text-sm text-emerald-50 font-medium mt-0.5">
+                Alhamdulillah, seluruh jadwal kebersihan telah dikerjakan dengan amanah dan tuntas.
+              </p>
+            </div>
+          </div>
+          <span class="px-4 py-2 rounded-full bg-white text-emerald-700 text-xs font-extrabold shadow-xs shrink-0">
+            ✨ 100% Tuntas
+          </span>
         </div>
       </section>
 
@@ -323,7 +338,7 @@
     </div>
   </div>
 
-  <!-- NOTIFIKASI TOAST RINGAN (Umpan balik saat checklist diklik atau di-reset) -->
+  <!-- NOTIFIKASI TOAST RINGAN (Umpan balik saat checklist diklik, ditambah, atau di-reset) -->
   <div id="toast-notifikasi" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
     <div class="bg-brand-indigo text-white px-4 py-3 rounded-2xl shadow-lg flex items-center gap-2.5 text-xs font-semibold">
       <span id="toast-ikon">✅</span>
@@ -332,7 +347,7 @@
   </div>
 
   <!-- =====================================================================
-       KODE JAVASCRIPT TERSTRUKTUR UNTUK SISWA SMA PEMULA
+       KODE JAVASCRIPT TERSTRUKTUR
        ===================================================================== -->
   <script>
     // =========================================================================
@@ -443,7 +458,7 @@
     }
 
     /**
-     * Menyimpan perubahan status checklist ke LocalStorage browser.
+     * Menyimpan perubahan status checklist & tugas tambahan ke LocalStorage browser.
      */
     function simpanDataPiket() {
       try {
@@ -491,7 +506,8 @@
     }
 
     /**
-     * Menghitung jumlah tugas total, selesai, belum selesai, serta memperbarui progress bar.
+     * Menghitung jumlah tugas total, selesai, belum selesai, memperbarui progress bar,
+     * serta menampilkan banner "MasyaAllah! Semua tugas selesai" bila seluruh checklist tercentang.
      */
     function perbaruiStatistik() {
       // Filter data sesuai tab hari yang sedang dipilih agar statistik terasa dinamis
@@ -523,10 +539,23 @@
         ? "Rekap seluruh hari (Senin – Jumat)"
         : `Rekap khusus hari ${filterHariAktif}`;
       document.getElementById("subjudul-statistik").textContent = subjudul;
+
+      // Tampilkan atau sembunyikan banner perayaan "MasyaAllah! Semua tugas selesai"
+      const bannerSelesai = document.getElementById("banner-semua-selesai");
+      const subjudulBanner = document.getElementById("subjudul-banner-selesai");
+      if (totalTugas > 0 && tugasSelesai === totalTugas) {
+        bannerSelesai.classList.remove("hidden");
+        subjudulBanner.textContent = filterHariAktif === "Semua"
+          ? "Alhamdulillah, seluruh tugas kebersihan Senin sampai Jumat telah tuntas dikerjakan!"
+          : `Alhamdulillah, seluruh tugas kebersihan hari ${filterHariAktif} telah tuntas dikerjakan!`;
+      } else {
+        bannerSelesai.classList.add("hidden");
+      }
     }
 
     /**
-     * Merender kartu jadwal piket beserta daftar anggota dan checklist tugas.
+     * Merender kartu jadwal piket beserta daftar anggota, checklist tugas,
+     * dan form penambahan checklist mandiri pada setiap kartu hari.
      */
     function renderJadwalPiket() {
       const container = document.getElementById("container-jadwal");
@@ -574,35 +603,51 @@
           </span>
         `).join("");
 
-        // Daftar item checklist tugas
+        // Daftar item checklist tugas (termasuk label & tombol hapus untuk tugas tambahan mandiri)
         const htmlTugas = jadwal.tugas.map(tugas => `
-          <label
-            onclick="toggleStatusTugas('${jadwal.id}', '${tugas.id}')"
-            class="flex items-start gap-3 p-3 rounded-2xl border transition-all cursor-pointer select-none ${
+          <div
+            class="flex items-center justify-between gap-2 p-3 rounded-2xl border transition-all ${
               tugas.selesai
                 ? 'bg-emerald-50/70 border-emerald-200/80'
                 : 'bg-slate-50/70 hover:bg-indigo-50/50 border-slate-200/70'
             }">
-            <!-- Kotak Centang Visual -->
-            <span class="custom-checkbox mt-0.5 w-5 h-5 rounded-lg flex items-center justify-center shrink-0 ${
-              tugas.selesai
-                ? 'bg-emerald-500 text-white shadow-xs'
-                : 'bg-white border-2 border-slate-300'
-            }">
-              ${tugas.selesai ? `
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-              ` : ''}
-            </span>
+            <label
+              onclick="toggleStatusTugas('${jadwal.id}', '${tugas.id}')"
+              class="flex items-start gap-3 flex-1 cursor-pointer select-none">
+              <!-- Kotak Centang Visual -->
+              <span class="custom-checkbox mt-0.5 w-5 h-5 rounded-lg flex items-center justify-center shrink-0 ${
+                tugas.selesai
+                  ? 'bg-emerald-500 text-white shadow-xs'
+                  : 'bg-white border-2 border-slate-300'
+              }">
+                ${tugas.selesai ? `
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                ` : ''}
+              </span>
 
-            <!-- Teks Tugas -->
-            <span class="text-xs leading-relaxed font-medium transition-all ${
-              tugas.selesai ? 'line-through text-slate-400' : 'text-slate-700'
-            }">
-              ${tugas.teks}
-            </span>
-          </label>
+              <!-- Teks Tugas & Badge Tambahan -->
+              <span class="text-xs leading-relaxed font-medium transition-all ${
+                tugas.selesai ? 'line-through text-slate-400' : 'text-slate-700'
+              }">
+                ${tugas.teks}
+                ${tugas.tambahan ? '<span class="ml-1.5 inline-block px-2 py-0.5 rounded-md bg-indigo-100 text-brand-indigo text-[10px] font-bold">Tambahan</span>' : ''}
+              </span>
+            </label>
+
+            ${tugas.tambahan ? `
+              <button
+                type="button"
+                onclick="hapusTugasTambahan('${jadwal.id}', '${tugas.id}')"
+                title="Hapus tugas tambahan ini"
+                class="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition shrink-0">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            ` : ''}
+          </div>
         `).join("");
 
         return `
@@ -649,14 +694,80 @@
                 </div>
               </div>
             </div>
+
+            <!-- Form Tambah Checklist Mandiri -->
+            <form onsubmit="tambahTugasMandiri(event, '${jadwal.id}')" class="mt-4 pt-3.5 border-t border-slate-100">
+              <label for="input-tugas-${jadwal.id}" class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+                + Tambah Checklist Sendiri:
+              </label>
+              <div class="flex items-center gap-2">
+                <input
+                  type="text"
+                  id="input-tugas-${jadwal.id}"
+                  placeholder="Tulis tugas tambahan..."
+                  class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-indigo/30 focus:bg-white transition"
+                />
+                <button
+                  type="submit"
+                  class="px-3.5 py-2 rounded-xl bg-brand-indigo hover:bg-brand-indigoDark text-white text-xs font-bold transition shrink-0 shadow-xs">
+                  Tambah
+                </button>
+              </div>
+            </form>
           </article>
         `;
       }).join("");
     }
 
     // =========================================================================
-    // 4. FUNGSI INTERAKSI PENGGUNA (Klik Checklist, Filter, Pencarian, Reset)
+    // 4. FUNGSI INTERAKSI PENGGUNA (Klik Checklist, Tambah Tugas, Filter, Reset)
     // =========================================================================
+
+    /**
+     * Menambahkan tugas checklist baru yang diisi sendiri oleh santri pada kartu hari tertentu.
+     */
+    function tambahTugasMandiri(event, idJadwal) {
+      event.preventDefault();
+      const inputEl = document.getElementById(`input-tugas-${idJadwal}`);
+      if (!inputEl) return;
+
+      const teksBaru = inputEl.value.trim();
+      if (teksBaru === "") {
+        tampilkanToast("⚠️", "Isi nama tugas terlebih dahulu!");
+        inputEl.focus();
+        return;
+      }
+
+      const jadwal = dataPiket.find(item => item.id === idJadwal);
+      if (!jadwal) return;
+
+      // Tambahkan tugas baru ke daftar tugas hari tersebut
+      jadwal.tugas.push({
+        id: "custom_" + Date.now(),
+        teks: teksBaru,
+        selesai: false,
+        tambahan: true
+      });
+
+      simpanDataPiket();
+      renderJadwalPiket();
+      perbaruiStatistik();
+      tampilkanToast("📝", `Tugas tambahan ditambahkan ke hari ${jadwal.hari}!`);
+    }
+
+    /**
+     * Menghapus tugas tambahan yang dibuat sendiri oleh santri.
+     */
+    function hapusTugasTambahan(idJadwal, idTugas) {
+      const jadwal = dataPiket.find(item => item.id === idJadwal);
+      if (!jadwal) return;
+
+      jadwal.tugas = jadwal.tugas.filter(t => t.id !== idTugas);
+      simpanDataPiket();
+      renderJadwalPiket();
+      perbaruiStatistik();
+      tampilkanToast("🗑️", "Tugas tambahan dihapus.");
+    }
 
     /**
      * Mengubah status selesai / belum selesai pada tugas tertentu saat diklik.
@@ -676,11 +787,21 @@
       renderJadwalPiket();
       perbaruiStatistik();
 
-      // Tampilkan pesan toast singkat
-      tampilkanToast(
-        tugas.selesai ? "✅" : "↩️",
-        tugas.selesai ? "Tugas ditandai selesai!" : "Tugas dikembalikan ke belum selesai."
-      );
+      // Cek apakah seluruh tugas pada filter aktif sudah tercentang semua
+      const dataTerfilter = filterHariAktif === "Semua"
+        ? dataPiket
+        : dataPiket.filter(item => item.hari === filterHariAktif);
+      const totalTugas = dataTerfilter.reduce((acc, j) => acc + j.tugas.length, 0);
+      const totalSelesai = dataTerfilter.reduce((acc, j) => acc + j.tugas.filter(t => t.selesai).length, 0);
+
+      if (tugas.selesai && totalTugas > 0 && totalSelesai === totalTugas) {
+        tampilkanToast("🌟", "MasyaAllah! Semua tugas selesai");
+      } else {
+        tampilkanToast(
+          tugas.selesai ? "✅" : "↩️",
+          tugas.selesai ? "Tugas ditandai selesai!" : "Tugas dikembalikan ke belum selesai."
+        );
+      }
     }
 
     /**
